@@ -14,4 +14,6 @@ public interface UserService {
     UserDTO createUser(UserDTO userDTO) throws UserAPIException;
 
     UserDTO updateUser(String emailId, UserDTO userDTO) throws UserAPIException;
+
+    UserDTO deleteUser(String emailId) throws UserAPIException;
 }

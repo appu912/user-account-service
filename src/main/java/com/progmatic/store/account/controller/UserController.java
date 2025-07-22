@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,6 +86,25 @@ public class UserController {
             response.setHttpStatus(HttpStatus.OK);
             response.setPayload(updatedUserDTO);
             log.info("User updated.");
+        }
+        catch (Exception exception) {
+            log.error("Exception occurred: {}", exception.getMessage(), exception);
+            response.setMessage("User not found.");
+            response.setHttpStatus(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+    @DeleteMapping(value = "/user/{userId}")
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable("userId") String userId) {
+        UserResponse response = new UserResponse();
+        try {
+            log.info("Deleting user ...");
+            UserDTO deletedUserDTO = userService.deleteUser(userId);
+            response.setMessage("User deleted.");
+            response.setHttpStatus(HttpStatus.OK);
+            response.setPayload(deletedUserDTO);
+            log.info("User deleted.");
         }
         catch (Exception exception) {
             log.error("Exception occurred: {}", exception.getMessage(), exception);

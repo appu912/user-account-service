@@ -53,6 +53,14 @@ public class UserServiceImpl implements UserService {
         return ConvertUtilities.toUserDTO(userRepository.save(user));
     }
 
+    @Override
+    public UserDTO deleteUser(String emailId) throws UserAPIException {
+        User user = userRepository.findByEmailId(emailId).orElseThrow(() -> new UserAPIException(String.format("User with email id %s not found.", emailId)));
+        UserDTO userDTO = ConvertUtilities.toUserDTO(user);
+        userRepository.delete(user);
+        return userDTO;
+    }
+
     private void updateHelper(User user, UserDTO payload) {
         if (StringUtilities.isNotNullOrEmpty(payload.getFirstName())) {
             user.setFirstName(payload.getFirstName());

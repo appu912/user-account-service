@@ -1,6 +1,6 @@
 spring:
   application:
-    name: authenticationservice
+    name: useraccountservice
     group: com.progmatic.store.account
   main:
     banner-mode: off

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: authenticationservice
+    group: com.progmatic.store.account
+  main:
+    banner-mode: off
+  datasource:
+    url: jdbc:postgresql://localhost:5432/userdb
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: admin
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  output:
+    ansi:
+      enabled: ALWAYS

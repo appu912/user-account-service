@@ -11,6 +11,7 @@ import com.progmatic.store.account.entity.User;
 import com.progmatic.store.account.exception.UserAPIException;
 import com.progmatic.store.account.repository.UserRepository;
 import com.progmatic.store.account.util.ConvertUtilities;
+import com.progmatic.store.account.util.StringUtilities;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
@@ -43,5 +44,24 @@ public class UserServiceImpl implements UserService {
         user.setEmailId(emailId);
         user.setPassword(userDTO.getPassword());
         return ConvertUtilities.toUserDTO(userRepository.save(user));
+    }
+
+    @Override
+    public UserDTO updateUser(String emailId, UserDTO userDTO) throws UserAPIException {
+        User user = userRepository.findByEmailId(emailId).orElseThrow(() -> new UserAPIException(String.format("User with email id %s not found.", emailId)));
+        updateHelper(user, userDTO);
+        return ConvertUtilities.toUserDTO(userRepository.save(user));
+    }
+
+    private void updateHelper(User user, UserDTO payload) {
+        if (StringUtilities.isNotNullOrEmpty(payload.getFirstName())) {
+            user.setFirstName(payload.getFirstName());
+        }
+        if (StringUtilities.isNotNullOrEmpty(payload.getLastName())) {
+            user.setLastName(payload.getLastName());
+        }
+        if (StringUtilities.isNotNullOrEmpty(payload.getUserName())) {
+            user.setUserName(payload.getUserName());
+        }
     }
 }

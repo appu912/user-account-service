@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,7 +56,7 @@ public class UserController {
         return new ResponseEntity<>(response, response.getHttpStatus());
     }
 
-    @PostMapping(value = "/user", consumes = {"application/json"})
+    @PostMapping(value = "/user")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserDTO userDTO) {
         UserResponse response = new UserResponse();
         try {
@@ -70,6 +71,25 @@ public class UserController {
             log.error("Exception occurred: {}", exception.getMessage(), exception);
             response.setMessage("User already exists.");
             response.setHttpStatus(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+    @PutMapping(value = "/user/{userId}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") String userId, @RequestBody UserDTO userDTO) {
+        UserResponse response = new UserResponse();
+        try {
+            log.info("Updating user ...");
+            UserDTO updatedUserDTO = userService.updateUser(userId, userDTO);
+            response.setMessage("User updated.");
+            response.setHttpStatus(HttpStatus.OK);
+            response.setPayload(updatedUserDTO);
+            log.info("User updated.");
+        }
+        catch (Exception exception) {
+            log.error("Exception occurred: {}", exception.getMessage(), exception);
+            response.setMessage("User not found.");
+            response.setHttpStatus(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, response.getHttpStatus());
     }

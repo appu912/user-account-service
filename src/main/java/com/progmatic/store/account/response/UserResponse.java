@@ -1,17 +1,16 @@
 package com.progmatic.store.account.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.Setter;
 
 import com.progmatic.store.account.dto.UserDTO;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
-    private String message;
-    private HttpStatus httpStatus;
+public class UserResponse extends CommonResponse {
     private UserDTO payload;
 }

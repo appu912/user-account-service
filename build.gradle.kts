@@ -9,9 +9,9 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.5.3")
-
     implementation("org.postgresql:postgresql:42.7.7")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.5.3")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.5.4")
 
     compileOnly("org.projectlombok:lombok:1.18.38")
     annotationProcessor("org.projectlombok:lombok:1.18.38")
@@ -26,6 +26,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 spotless {

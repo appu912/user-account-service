@@ -1,18 +1,15 @@
 package com.progmatic.store.account.response;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.progmatic.store.account.dto.UserDTO;
-
 @Setter
 @Getter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserListResponse extends CommonResponse {
-    private List<UserDTO> payload;
+public class ErrorResponse extends CommonResponse {
+    private String description;
+    private String path;
 }

@@ -1,18 +1,19 @@
 package com.progmatic.store.account.response;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.progmatic.store.account.dto.UserDTO;
-
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserListResponse extends CommonResponse {
-    private List<UserDTO> payload;
+public class CommonResponse {
+    private String message;
+    private Integer statusCode;
+    private String status;
+    private LocalDateTime timestamp;
 }

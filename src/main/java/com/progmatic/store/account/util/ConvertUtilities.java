@@ -10,9 +10,8 @@ public class ConvertUtilities {
         userDTO.setId(user.getId());
         userDTO.setEmailId(user.getEmailId());
         userDTO.setPassword(user.getPassword());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setUserName(user.getUserName());
+        userDTO.setFullName(user.getFullName());
+        userDTO.setUsername(user.getUsername());
         return userDTO;
     }
 
@@ -21,9 +20,8 @@ public class ConvertUtilities {
         user.setId(userDTO.getId());
         user.setEmailId(userDTO.getEmailId());
         user.setPassword(userDTO.getPassword());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setUserName(userDTO.getUserName());
+        user.setFullName(userDTO.getFullName());
+        user.setUsername(userDTO.getUsername());
         return user;
     }
 

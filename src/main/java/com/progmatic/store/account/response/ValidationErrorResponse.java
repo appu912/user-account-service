@@ -1,18 +1,16 @@
 package com.progmatic.store.account.response;
 
-import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.progmatic.store.account.dto.UserDTO;
-
 @Setter
 @Getter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserListResponse extends CommonResponse {
-    private List<UserDTO> payload;
+public class ValidationErrorResponse extends ErrorResponse {
+    private Map<String, String> violatedConstraints;
 }

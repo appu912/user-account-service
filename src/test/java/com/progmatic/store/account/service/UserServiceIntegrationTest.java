@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -35,11 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("IntegrationTest")
 public class UserServiceIntegrationTest {
 
-    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/userdb";
-    private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "admin";
-
-    private static final String PATH_TO_SQL_SCRIPTS = Path.of(System.getProperty("user.dir"), "data", "scripts", "sql").toAbsolutePath().toString();
+    private static final String PATH_TO_SQL_SCRIPTS = Path.of(System.getProperty("user.dir"), "src", "test", "resources", "scripts", "sql").toAbsolutePath().toString();
 
     private static ConfigurableApplicationContext applicationContext;
 
@@ -47,8 +44,15 @@ public class UserServiceIntegrationTest {
 
     @BeforeAll
     public static void init() throws SQLException {
-        connection = DriverManager.getConnection(JDBC_URL, DB_USERNAME, DB_PASSWORD);
         applicationContext = SpringApplication.run(Application.class);
+        Environment environment = applicationContext.getEnvironment();
+        String jdbcUrl = environment.getProperty("spring.datasource.url");
+        String dbUsername = environment.getProperty("spring.datasource.username");
+        String dbPassword = environment.getProperty("spring.datasource.password");
+        assertNotNull(jdbcUrl);
+        assertNotNull(dbUsername);
+        assertNotNull(dbPassword);
+        connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
     }
 
     @AfterAll
@@ -173,6 +177,6 @@ public class UserServiceIntegrationTest {
     }
 
     private static String getFilledUserDataScript() {
-        return Path.of(PATH_TO_SQL_SCRIPTS, "add-user-data.sql").toAbsolutePath().toString();
+        return Path.of(PATH_TO_SQL_SCRIPTS, "non-empty-user-data.sql").toAbsolutePath().toString();
     }
 }

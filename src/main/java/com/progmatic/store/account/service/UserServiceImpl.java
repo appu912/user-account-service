@@ -58,8 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUser(String emailId, UserDTO userDTO) throws UserNotFoundException {
+        log.info("Updating user in database ...");
         User user = userRepository.findByEmailId(emailId).orElseThrow(() -> new UserNotFoundException(String.format(UserConstants.USER_NOT_FOUND, emailId)));
         updateHelper(user, userDTO);
+        log.info("User updated in database.");
         return ConvertUtilities.toUserDTO(userRepository.save(user));
     }
 
@@ -74,6 +76,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private void updateHelper(User user, UserDTO payload) {
+        if (StringUtilities.isNotNullOrEmpty(payload.getEmailId())) {
+            user.setEmailId(payload.getEmailId());
+        }
+        if (StringUtilities.isNotNullOrEmpty(payload.getPassword())) {
+            user.setPassword(payload.getPassword());
+        }
         if (StringUtilities.isNotNullOrEmpty(payload.getFullName())) {
             user.setFullName(payload.getFullName());
         }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,25 +76,20 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
     }
 
-//    @PutMapping(value = "/user/{userId}")
-//    public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") String userId, @RequestBody UserDTO userDTO) {
-//        UserResponse response = new UserResponse();
-//        try {
-//            log.info("Updating user ...");
-//            UserDTO updatedUserDTO = userService.updateUser(userId, userDTO);
-//            response.setMessage("User updated.");
-//            response.setHttpStatus(HttpStatus.OK);
-//            response.setPayload(updatedUserDTO);
-//            log.info("User updated.");
-//        }
-//        catch (Exception exception) {
-//            log.error("Exception occurred: {}", exception.getMessage(), exception);
-//            response.setMessage("User not found.");
-//            response.setHttpStatus(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(response, response.getHttpStatus());
-//    }
-//
+    @PutMapping(value = "/user/{emailId}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("emailId") @Email(message = "Enter a valid email address.") String emailId, @RequestBody @Valid UserDTO userDTO) throws UserAPIException {
+        UserResponse response = new UserResponse();
+        log.info("Updating user ...");
+        UserDTO updatedUserDTO = userService.updateUser(emailId, userDTO);
+        response.setMessage("User updated.");
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setStatus(HttpStatus.OK.getReasonPhrase());
+        response.setTimestamp(LocalDateTime.now());
+        response.setPayload(updatedUserDTO);
+        log.info("User updated successfully.");
+        return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
+    }
+
     @DeleteMapping(value = "/user/{emailId}")
     public ResponseEntity<UserResponse> deleteUser(@PathVariable("emailId") @Email(message = "Enter a valid email address.") String emailId) throws UserAPIException {
         UserResponse response = new UserResponse();

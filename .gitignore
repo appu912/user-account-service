@@ -4,5 +4,16 @@
 # Ignore Gradle build output directory
 build
 
-# Ignore Intellij project-specific cache directory
+# Ignore Gradle wrapper. This is done with the assumption that gradle is installed on the system.
+gradle
+
+# Ignore gradle scripts
+gradlew
+gradlew.bat
+
+# Ignore Intellij specific files.
 .idea
+
+# Ignore Kotlin plugin data
+.kotlin
+
